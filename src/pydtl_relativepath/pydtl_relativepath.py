@@ -2,15 +2,15 @@
 Relative Path Utilities for multi-structured frameworks
 =======================================================
 
-#How-To-Use-PathObj
+Usage
 
 Whenever specifying a relative path use `rel2abs`
 
 See an Example below
 
-> from pydtl_relativepath import rel2abs as r2a
-> readmepath = r2a("README.txt")
-> print(open(readmepath, mode="r", encoding="utf-8").read())
+    from pydtl_relativepath import rel2abs as r2a
+    readmepath = r2a("README.txt")
+    print(open(readmepath, mode="r", encoding="utf-8").read())
 
 This will convert relative path specified to an absolute path relative to current file's directory
 Here, readmepath contains the absolute path for README.txt file
