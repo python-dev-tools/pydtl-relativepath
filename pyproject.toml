@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pydtl-relativepath"
-version = "0.1.0"
+version = "1.0.0"
 description = "python tool to solve many issues with relative paths and imports in your complex framework."
 authors = ["Nanthagopal-Eswaran <nanthagopaleswaran@gmail.com>"]
 maintainers = ["Nanthagopal-Eswaran <nanthagopaleswaran@gmail.com>"]
