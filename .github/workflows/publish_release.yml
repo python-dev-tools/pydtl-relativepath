@@ -27,7 +27,7 @@ jobs:
         run: poetry install --without dev --without test --sync
       - name: Check import
         shell: bash
-        run: python -c "from pydtl_relativepath import RelativePathType, rel2abs"
+        run: poetry run python -c "from pydtl_relativepath import RelativePathType, rel2abs"
       - name: Build
         shell: bash
         run: poetry build
