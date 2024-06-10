@@ -34,7 +34,7 @@ jobs:
 
       - name: Run Ruff
         run: |
-          poetry run ruff lint
+          poetry run ruff check
           poetry run ruff format --check
 
       - name: Run Mypy
