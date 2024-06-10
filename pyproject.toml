@@ -77,8 +77,6 @@ addopts = [
     "--cov=src",
     "--cov-report=html:.pytest_results/coverage_report",
     "--cov-report=xml:.pytest_results/coverage_report/coverage.xml",
-    "--html=.pytest_results/test_report.html",
-    "--self-contained-html",
 ]
 
 [build-system]
