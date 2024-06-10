@@ -53,13 +53,6 @@ body:
     attributes:
       label: Reproduce Steps
       description: |
-        Please provide the steps to reproduce the issue.
-
-        Incase of streamlit app, please provide below details:
-          - File Used (Optional)
-          - Settings Used
-
-        Incase of python library, please provide below details:
         Please add a self-contained, [minimal, reproducible, example](https://stackoverflow.com/help/minimal-reproducible-example) with your use case.
 
         If a maintainer can copy it, run it, and see it right away, there's a much higher chance that you'll be able to get help.
