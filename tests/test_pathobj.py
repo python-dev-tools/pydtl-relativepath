@@ -1,37 +1,38 @@
 """Unittesting for pydtl_relativepath tool"""
 
 import os
+
 import pytest
-from pydtl_relativepath import rel2abs as r2a
+from pydtl_relativepath import rel2abs
 
 
-def test_abs_path_crelative_to():
+def test_relative_to_current_working_directory():
     """Test abosolute path construction relative to current working directory"""
 
-    path = r2a("README.md", relative_to="c")
+    path = rel2abs("README.md", relative_to="c")
     assert path == os.path.join(os.path.abspath(os.curdir), "README.md")
 
 
-def test_abs_path_frelative_to():
+def test_relative_to_current_file():
     """Test abosolute path construction relative to current file's directory"""
 
-    path = r2a(r"..\README.md", relative_to="f")
+    path = rel2abs(r"..\README.md", relative_to="f")
     root_dir = os.path.dirname(os.path.dirname(__file__))
     assert path == os.path.join(root_dir, "README.md")
 
 
-def test_file_opening():
+def test_file_opening_with_output_path():
     """Test abosolute path constructed with file open"""
 
-    path = r2a(r"..\README.md", relative_to="f")
+    path = rel2abs(r"..\README.md", relative_to="f")
     readme = open(path, mode="r", encoding="utf-8")
     readme.close()
 
 
-def test_path_as_str_repr():
+def test_string_manipulation_on_output_path():
     """Test abosolute path constructed as str"""
 
-    path = r2a(r"..\README.md", relative_to="f")
+    path = rel2abs(r"..\README.md", relative_to="f")
     assert (str(path) + "2").endswith("2")
     assert path == repr(path)
 
@@ -40,4 +41,4 @@ def test_invalid_option():
     """Test invalid relative to option"""
 
     with pytest.raises(ValueError):
-        r2a("README.md", relative_to="i")
+        rel2abs("README.md", relative_to="i")

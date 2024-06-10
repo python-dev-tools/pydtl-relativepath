@@ -17,9 +17,8 @@ Here, readmepath contains the absolute path for README.txt file
 and it is compatible with os.PathLike objects.
 """
 
-
-import os
 import inspect
+import os
 
 
 class PathObj(os.PathLike):
@@ -42,9 +41,7 @@ class PathObj(os.PathLike):
         root_path = ""
 
         if self.relative_to == "f":
-            root_path = os.path.dirname(
-                inspect.stack()[3].filename
-            )  # current file's dir
+            root_path = os.path.dirname(inspect.stack()[3].filename)  # current file's dir
         elif self.relative_to == "c":
             root_path = os.path.abspath(os.curdir)  # current working dir
         else:
