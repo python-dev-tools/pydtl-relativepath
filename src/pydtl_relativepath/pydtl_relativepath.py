@@ -19,13 +19,14 @@ This function converts a specified relative path to an absolute path, relative t
 import inspect
 import os
 from pathlib import Path
+from typing import Union
 
 from .enums import RelativePathType
 
 
 def rel2abs(
     *args,
-    relative_type: str | RelativePathType = RelativePathType.RELATIVE_TO_WORKING_DIRECTORY,
+    relative_type: Union[str, RelativePathType] = RelativePathType.RELATIVE_TO_WORKING_DIRECTORY,
     parent_dir_jump: int = 0,
 ):
     """
