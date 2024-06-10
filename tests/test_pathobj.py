@@ -75,11 +75,29 @@ def test_file_opening_with_output_path():
     readme.close()
 
 
-def test_invalid_option():
-    """Test invalid relative to option"""
+def test_invalid_relative_to_option_str():
+    """Test invalid relative to option. sending invalid string instead of RelativePathType enum"""
 
     with pytest.raises(ValueError):
         rel2abs("README.md", relative_type="a")
+
+
+def test_invalid_relative_to_option_int():
+    """Test invalid relative to option. sending an integer"""
+
+    with pytest.raises(ValueError):
+        rel2abs("README.md", relative_type=1)
+
+
+def test_invalid_parent_dir_jump():
+    """Test invalid parent_dir_jump option. sending positive integer"""
+
+    with pytest.raises(ValueError):
+        rel2abs(
+            "README.md",
+            relative_type=RelativePathType.RELATIVE_TO_CURRENT_FILE,
+            parent_dir_jump=1,
+        )
 
 
 def test_pathlib_compatibility():
