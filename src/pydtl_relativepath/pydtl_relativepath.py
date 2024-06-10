@@ -1,78 +1,72 @@
 """
-Relative Path Utilities for multi-structured frameworks
-=======================================================
+This module provides utilities for handling relative paths in multi-structured frameworks.
 
-Usage
+Functions:
+    rel2abs(path): Converts a relative path to an absolute path.
 
-Whenever specifying a relative path use `rel2abs`
+Usage:
+    Whenever specifying a relative path, use `rel2abs`.
 
-See an Example below
-
-    from pydtl_relativepath import rel2abs as r2a
-    readmepath = r2a("README.txt")
+Example:
+    from pydtl_relativepath import rel2abs, RelativePathType
+    readmepath = rel2abs("README.txt", relative_to=RelativePathType.RELATIVE_TO_CURRENT_FILE)
     print(open(readmepath, mode="r", encoding="utf-8").read())
 
-This will convert relative path specified to an absolute path relative to current file's directory
-Here, readmepath contains the absolute path for README.txt file
-and it is compatible with os.PathLike objects.
+This function converts a specified relative path to an absolute path, relative to the current file's directory.
+`readmepath` will contain the absolute path for the README.txt file. This function is compatible with os.PathLike objects.
 """
 
 import inspect
 import os
+from pathlib import Path
+
+from .enums import RelativePathType
 
 
-class PathObj(os.PathLike):
-    """Relative Path Object for all path handlings"""
-
-    def __init__(self, relative_path: str, relative_to: str):
-        """
-        Path Object
-
-        :param relative_path: Specify the relative path to be converted
-        :param relative_to: Specify the root location. possible values: 'f' - current file's dir,
-                            'c' - current working dir
-        """
-
-        self.relative_path = relative_path
-        self.relative_to = relative_to
-        self.absolute_path = self._frame_abs_path()
-
-    def _frame_abs_path(self) -> str:
-        root_path = ""
-
-        if self.relative_to == "f":
-            root_path = os.path.dirname(inspect.stack()[3].filename)  # current file's dir
-        elif self.relative_to == "c":
-            root_path = os.path.abspath(os.curdir)  # current working dir
-        else:
-            raise ValueError(
-                f"Invalid root option [{self.relative_to}]\nPossible options: "
-                "'f' - current file's dir, 'c' - current working dir"
-            )
-
-        abs_path = os.path.join(root_path, self.relative_path)
-        return os.path.normcase(os.path.normpath(abs_path))
-
-    def __repr__(self):
-        return self.absolute_path
-
-    def __str__(self):
-        return self.absolute_path
-
-    def __fspath__(self):
-        return self.absolute_path
-
-    def __eq__(self, other):
-        return os.path.samefile(self.absolute_path, other)
-
-
-def rel2abs(relative_path: str, relative_to="f"):
+def rel2abs(
+    *args,
+    relative_type: str | RelativePathType = RelativePathType.RELATIVE_TO_WORKING_DIRECTORY,
+    parent_dir_jump: int = 0,
+):
     """
-    Convert Relative Path to Absolute Path Object
+    Convert Relative Path to Absolute Path
 
-    :param relative_path: Specify the relative path to be converted
-    :param relative_to: Specify the root location. possible values: 'f' - current file's dir,
-                        'c' - current working dir
+    Args:
+        *args: Specify each folder and destination files. Example: "folder1", "folder2", "file.txt"
+        relative_type (str | RelativePathType): Specify the root location. Default is RelativePathType.RELATIVE_TO_WORKING_DIRECTORY.
+        parent_dir_jump (int): Specify the number of folders to go up from the relative to location. Default is 0. Positive values are not allowed.
+
+    Example:
+        from pydtl_relativepath import rel2abs, RelativePathType
+        readmepath = rel2abs("README.txt", relative_to=RelativePathType.RELATIVE_TO_CURRENT_FILE)
+        print(open(readmepath, mode="r", encoding="utf-8").read())
+
+    Returns:
+        Path: The absolute path of the specified relative path.
     """
 
-    return PathObj(relative_path=relative_path, relative_to=relative_to)
+    root_path = ""
+
+    if isinstance(relative_type, str):
+        relative_type = RelativePathType(relative_type)
+
+    if relative_type == RelativePathType.RELATIVE_TO_CURRENT_FILE:
+        root_path = os.path.dirname(inspect.stack()[1].filename)  # current file's dir
+    elif relative_type == RelativePathType.RELATIVE_TO_WORKING_DIRECTORY:
+        root_path = os.path.abspath(os.curdir)  # current working dir
+    else:
+        raise ValueError(f"Invalid root option [{relative_type}]\nUse RelativePathType enum")
+
+    if parent_dir_jump > 0 or not isinstance(parent_dir_jump, int):
+        raise ValueError(
+            "Invalid parent_dir_jump value. Only negative integers and zero are allowed."
+        )
+    else:
+        no_of_dirs_to_jump = parent_dir_jump * -1  # convert to positive value
+        for _ in range(no_of_dirs_to_jump):
+            root_path = os.path.dirname(root_path)
+
+    abs_path = os.path.join(root_path, *args)
+    abs_path = os.path.normpath(abs_path)
+
+    return Path(abs_path)
