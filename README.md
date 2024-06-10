@@ -3,6 +3,7 @@
 pydtl-relativepath tool from pydtl community can be used to solve many issues that occurs with relative paths and imports from various modules in your complex framework.
 
 [![Tests](https://github.com/python-dev-tools/pydtl-relativepath/actions/workflows/tests.yml/badge.svg)](https://github.com/python-dev-tools/pydtl-relativepath/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/python-dev-tools/pydtl-relativepath/graph/badge.svg?token=WULZU647T4)](https://codecov.io/gh/python-dev-tools/pydtl-relativepath)
 [![Linting](https://github.com/python-dev-tools/pydtl-relativepath/actions/workflows/lint.yml/badge.svg)](https://github.com/python-dev-tools/pydtl-relativepath/actions/workflows/lint.yml)
 ![Python Version](https://img.shields.io/badge/Python%20Versions-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)
 ![OS Support](https://img.shields.io/badge/OS%20Support-Windows%20%7C%20Linux%20%7C%20MacOS-blue)
