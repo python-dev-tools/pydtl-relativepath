@@ -17,7 +17,7 @@ concurrency:
 permissions: {}
 
 jobs:
-  lint:
+  package_and_vulenrability:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,4 +38,4 @@ jobs:
 
       - name: Run Safety Check
         run: |
-          poetry audit
+          poetry run safety scan
